@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class HeroesComponent implements OnInit {
 
   heroes: HeroeModel[] = [];
-  cargando = false;
+  cargando = false ;
 
   constructor( private heroesService:HeroesService) { }
 
