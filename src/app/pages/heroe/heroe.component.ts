@@ -21,8 +21,17 @@ export class HeroeComponent implements OnInit {
 
 
   ngOnInit(): void {
-  }
+    const id =  this.route.snapshot.paramMap.get('id');
 
+    if (id !== 'nuevo') {
+        this.heroesService.getHeroe(id)
+            .subscribe((resp: HeroeModel)=>{
+              this.heroe = resp;
+              this.heroe.id = id;
+            });
+    }
+    
+  }
   guardar(form: NgForm){
 
     if (form.invalid) {  
