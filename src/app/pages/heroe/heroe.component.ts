@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { HeroeModel } from 'src/app/models/heroe.model';
 import { HeroesService } from 'src/app/services/heroes.service';
 
+import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-heroe',
   templateUrl: './heroe.component.html',
@@ -27,11 +30,32 @@ export class HeroeComponent implements OnInit {
       return;
     }
 
-    this.heroesService.crearHeroe( this.heroe )
-      .subscribe( resp => {
-        console.log(resp);
-        
-      });
+    Swal.fire({
+      title: 'Espere',
+      allowOutsideClick:false,
+      icon: 'info',
+      text: 'Guardando Informacion'
+    });
 
-}
+    let peticion: Observable<any>;
+
+
+    if (this.heroe.id) {
+      
+   peticion =  this.heroesService.actualizarHeroe(this.heroe);
+      
+    }else{
+
+     peticion = this.heroesService.crearHeroe(this.heroe);
+    }
+
+    peticion.subscribe(resp =>{
+      Swal.fire({
+         title: this.heroe.nombre,
+         text: 'Se actualizo correctamente',
+         icon: 'success'
+      });
+   });  
+
+  }
 }
